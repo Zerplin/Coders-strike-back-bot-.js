@@ -1,0 +1,268 @@
+**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+// prev was rank 300 boost code incl. 
+var laps = parseInt(readline());
+var checkpointCount = parseInt(readline());
+var cpListx =[];
+var cpListy=[];
+for (var i = 0; i < checkpointCount; i++) 
+{
+    var inputs = readline().split(' ');
+    var checkpointX = parseInt(inputs[0]);
+    var checkpointY = parseInt(inputs[1]);
+    
+    cpListx[i]=checkpointX;
+    cpListy[i]=checkpointY;
+    
+    printErr(cpListx[i],cpListy[i]);
+}
+
+
+
+
+/*
+var indexOf = checkpoint => {
+    // Iterate through all elements
+    for (var i = 0, length = checkpoints.length; i < length; i++) {
+        // If the coordinates of the points match, return index
+        if (areEqual(checkpoints[i], checkpoint)) {
+            return i;
+        }
+    }
+    // Return -1 if no matching point was found
+    return -1;
+}*/
+
+
+const brakeStep1 = 1300;
+const brakeStep2 = 1100;
+const brakeStep3 = 800;
+var p1cp=0;
+var p2cp=0;
+var p1boost =true;
+var p2boost = true;
+var p1speed =100;
+var p2speed =100;
+
+function getspeed(boost,dist,angle)
+{
+    printErr("p1dist "+p1Dist);
+    printErr("p2dist "+p2Dist);
+   
+    if(angleDegcp)
+    
+    if(p1Nextcp>1&&boost&&dist>2000&&angle<0.5)
+    {
+        
+        return "BOOST";
+    }
+    
+   
+    if(angle>=90)
+    {
+        return 0;
+        
+    }
+    /*
+      if (dist <= brakeStep3) {
+        return 25;
+    } else if (dist <= brakeStep2) {
+        return 50;
+    } else if (dist <= brakeStep1) {
+        return 75;
+    }*/
+    
+    return 100;
+}
+// game loop
+while (true) 
+
+{
+    for (var i = 0; i < 2; i++) 
+    {
+        var inputs = readline().split(' ');
+        var x = parseInt(inputs[0]); // x position of your pod
+        var y = parseInt(inputs[1]); // y position of your pod
+        var vx = parseInt(inputs[2]); // x speed of your pod
+        var vy = parseInt(inputs[3]); // y speed of your pod
+        var angle = parseInt(inputs[4]); // angle of your pod
+        var nextCheckPointId = parseInt(inputs[5]); // next check point id of your pod'
+        
+        if (i==0)
+        {
+            p1vx=vx;
+            p1vy=vy;
+            p1x=x;
+            p1y=y;
+            p1Nextcp=nextCheckPointId;
+            angle1=angle;
+            
+            printErr("true p1cp "+nextCheckPointId)
+        }
+        
+        else if(i==1)
+        {
+            p2vx=vx;
+            p2vy=vy;
+            p2x=x;
+            p2y=y;
+            p2Nextcp=nextCheckPointId;
+            angle2=angle;
+            printErr("true p2cp "+nextCheckPointId)
+        }
+    }
+    for (var i = 0; i < 2; i++)
+    {
+        var inputs = readline().split(' ');
+        var x2 = parseInt(inputs[0]); // x position of the opponent's pod
+        var y2 = parseInt(inputs[1]); // y position of the opponent's pod
+        var vx2 = parseInt(inputs[2]); // x speed of the opponent's pod
+        var vy2 = parseInt(inputs[3]); // y speed of the opponent's pod
+        var angle2 = parseInt(inputs[4]); // angle of the opponent's pod
+        var nextCheckPointId2 = parseInt(inputs[5]); // next check point id of the opponent's pod
+        
+         
+        if (i==0)
+        {
+            op1vx=vx2;
+            op1vy=vy2;
+            op1x=x2;
+            op1y=y2;
+            op1Nextcp=nextCheckPointId2;
+            oangle1=angle2;
+            
+            
+        }
+        
+        else if(i==1)
+        {
+            op2vx=vx;
+            op2vy=vy;
+            op2x=x;
+            op2y=y;
+            op2Nextcp=nextCheckPointId;
+            oangle2=angle;
+            
+        }
+    }
+    
+    
+    
+    var p1Dist= Math.hypot(cpListx[p1Nextcp]-p1x, cpListy[p1Nextcp]-p1y);
+    var p2Dist= Math.hypot(cpListx[p2Nextcp]-p2x, cpListy[p2Nextcp]-p2y);
+    
+    var op1Dist= Math.hypot(cpListx[p1Nextcp]-op1x, cpListy[p1Nextcp]-op1y);
+    var op2Dist= Math.hypot(cpListx[p2Nextcp]-op2x, cpListy[p2Nextcp]-op2y);
+    
+    var p1vel= Math.hypot(p1vx,p1vy);
+    var p2vel= Math.hypot(p2vx,p2vy);
+    
+    
+    var angleDeg = Math.atan2(cpListy[p1Nextcp]-p1y - (p1vy), cpListx[p1Nextcp]-p1x - (p1vx)) * 180 / Math.PI;
+    
+    var angleDegCp = (-angle1- angleDeg);
+    
+    printErr("angle1 and angelDeg "+ angle1+" "+angleDeg);
+    printErr("angleDegcp "+ angleDegCp);
+    printErr("test "+checkpointCount+" "+p1Nextcp+" "+p1Dist+" "+p1vel)
+   
+    var p1SafeSpace;
+   if(op1Dist>1500)
+   {
+       p1SafeSpace=2000;
+   }
+   
+    var p2SafeSpace;
+   if(op2Dist>1500)
+   {
+       p2SafeSpace=2000;
+   }
+   
+   if(p1Dist<650)
+    {
+        
+        
+        //p1cp=1;
+        p1Nextcp=(p1Nextcp+1)%checkpointCount;
+    }
+     printErr("test2 "+checkpointCount+" "+p2Nextcp+" "+p2Dist+" "+p2vel)
+   
+    if(p2Dist<650)
+    {
+        p2Nextcp=(p2Nextcp+1)%checkpointCount;
+    }
+    
+    printErr("actualcpid "+(p1Nextcp+p1cp)+" id2 "+(p2Nextcp+p2cp))
+    //var nextCheckpointX = parseInt(inputs[2]); // x position of the next check point
+    //var nextCheckpointY = parseInt(inputs[3]); // y position of the next check point
+
+    // Write an action using print()
+    // To debug: printErr('Debug messages...');
+
+
+    // You have to output the target position
+    // followed by the power (0 <= thrust <= 100)
+    // i.e.: "x y thrust"
+   
+   
+    printErr("p1Dist "+p1Dist);
+    printErr("p2Dist "+p2Dist);
+   
+    /*if(p2Dist<1000)
+    {
+         p1Nextcp=(p1Nextcp+1)%checkpointCount;
+    }
+    
+    else if(1000>p1Dist)
+    {
+         p2Nextcp=(p2Nextcp+1)%checkpointCount;
+    }*/
+    
+    
+    var p1_angle =Math.atan2(p1x,p1y)*(180/Math.PI);
+    var p2_angle =Math.atan2(p2x,p2y)*(180/Math.PI);
+    
+    var cp1_angle =Math.atan2(cpListx[p1Nextcp],cpListy[p1Nextcp])*(180/Math.PI);
+    var cp2_angle =Math.atan2(cpListx[p2Nextcp],cpListy[p2Nextcp])*(180/Math.PI);
+    
+    var p1cp1_angle=Math.abs(p1_angle-cp1_angle);
+    var p2cp2_angle=Math.abs(p2_angle-cp2_angle);
+    
+    
+   /* var test_angle1 =Math.atan2(P3.y - P1.y, P3.x - P1.x) -
+                     Math.atan2(P2.y - P1.y, P2.x - P1.x);*/
+    
+    
+    /*
+    printErr("p1 angle "+Math.atan2(p1x,p1y)*(180/Math.PI));
+    printErr("p1cp angle "+Math.atan2(cpListx[p1Nextcp],cpListy[p1Nextcp])*(180/Math.PI));
+    printErr("p1-cp angle "+Math.abs((Math.atan2(p1x,p1y)*(180/Math.PI))-Math.atan2(cpListx[p1Nextcp],cpListy[p1Nextcp])*(180/Math.PI)))
+    printErr("p1cp1_angle "+p1cp1_angle);
+    printErr("p2 angle "+Math.atan2(p2x,p2y)*(180/Math.PI));*/
+    
+    
+   
+    var stratX1=(cpListx[p1Nextcp+p1cp]-(3*p1vx));
+    var stratY1=(cpListy[p1Nextcp+p1cp]-(3*p1vy));
+    var stratX2=(cpListx[p2Nextcp+p2cp]-(3*p2vx));
+    var stratY2=(cpListy[p2Nextcp+p2cp]-(3*p2vy));
+    
+    var stratX3=(op1x-(3*p2vx));
+    var stratY3=(op1y)-(3*p2vy);
+    
+   
+    printErr("p1Nextcp "+p1Nextcp);
+    printErr("p2Nextcp "+p2Nextcp);
+    printErr("stratY1 "+stratY1);
+    printErr("stratX1 "+stratX1);
+    printErr("angle1 "+angle1);
+    printErr("angle2 "+angle2);
+    
+    print(stratX1+" "+stratY1+" "+"100");
+    print(stratX2+" "+stratY2+" "+"100");
+    
+    p2cp=0;
+    p1cp=0;
+}
